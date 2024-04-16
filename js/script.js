@@ -1,84 +1,55 @@
-const inicio = confirm("bueno pues, veamos si sabes de futbol")
+setTimeout(function(){
+let userName = prompt("Ingresa tu nombre");
+let instructions = `Instrucciones: \n1. 🧱 gana a ✂️\n2. 📄 gana a 🧱\n3. ✂️ gana a 📄\n¿ ${userName} estás listo para jugar?`;
+let isReady = confirm(instructions);
 
-if (inicio) {
-    const Usuario = prompt("Nombre del usuario")
-    alert("bueno " + Usuario + " veamos de que eres capaz")
-}
+let userScore = 0;
+let computerScore = 0;
 
-const quiz = {
-    intentos:0,
-    puntuacion: {
-        actual: 0,
-        maxima: 8,
-        record: 0, 
-    },
-    
-    preguntas: [
-        {
-            texto: "¿quien gano el balon de oro en 2007?",
-            opciones: ["A | Lionel Messi.","B | Didier Drogba.","C | Kaka.","D | Cristiano Ronaldo."],
-            respuesta:{
-                correcta: "C",
-                estado: false,
-            }
-        },
-        {
-            texto: "¿que jugador fue apodado como la araña negra?",
-            opciones: ["A | Lev Yashin.","B | Manuel Neuer.","C | Keylor Navas.","D | Guillermo Ochoa."],
-            respuesta:{
-                correcta: "A",
-                estado: false,
-            }
-        },
-        {
-            texto: "¿la holanda que fue apodada como la naranja mecanica a que año pertenece?",
-            opciones: ["A | 2010.","B | 1974.","C | 1982.","D | 2000."],
-            respuesta:{
-                correcta: "B",
-                estado: false,
-            }
-        },
-        {
-            texto: "¿en que año se dio el famoso MARACANAZO?",
-            opciones: ["A | 1950.","B | 1946.","C | 1958.","D | 1960."],
-            respuesta:{
-                correcta: "A",
-                estado: false,
-            }
-        }, 
-        {
-            texto: "¿cuantas premier league ha ganado sir alex ferguson como entrenador?",
-            opciones: ["A | 19.","B | 16.","C | 20.","D | 13."],
-            respuesta:{
-                correcta: "D",
-                estado: false,
-            }
-        },
-        {
-            texto: "¿que equipos se enfrentaron en el milagro de berna?",
-            opciones: ["A | brasil y portugal.","B | holanda y francia.","C | hungria y alemania.","D | brasil y españa."],
-            respuesta:{
-                correcta: "C",
-                estado: false,
-            }
-        },
-        {
-            texto: "¿que equipo es el mas ganador de la liga española?",
-            opciones: ["A | Real Madrid.","B | Barcelona.","C | Atletico de Madrid.","D | Athletic de bilbao."],
-            respuesta:{
-                correcta: "A",
-                estado: false,
-            }
-        },
-        {
-            texto: "¿cual es el equipo con mas copas libartadores?",
-            opciones: ["A | Boca Juniors.","B | Peñarol.","C | Gremio.","D | Independiente."],
-            respuesta:{
-                correcta: "D",
-                estado: false,
-            }
+if (isReady) {
+    let names = ["John", "Jane", "Bob", "Alice", "Charlie", "Emma"];
+
+    function getRandomName() {
+        let randomIndex = Math.floor(Math.random() * names.length);
+        return names[randomIndex];
+    }
+    const randomName = getRandomName();
+
+    function getComputerChoice() {
+        return Math.floor(Math.random() * 3) + 1;
+    }
+
+    function playRound(userChoice) {
+        let computerChoice = getComputerChoice();
+        let choices = ["🧱", "📄", "✂️"];
+
+        if ((userChoice == 1 && computerChoice == 3) ||
+            (userChoice == 2 && computerChoice == 1) ||
+            (userChoice == 3 && computerChoice == 2)) {
+            userScore++;
+            
+            return `Ganaste la ronda! Elegiste ${choices[userChoice-1].toUpperCase()} y ${randomName}(computadora) eligió ${choices[computerChoice-1].toUpperCase()}. Puntuaciones: ${userName} - ${userScore}, ${randomName}(Computadora) - ${computerScore}`;
+
+        } else if (userChoice == computerChoice) {
+            return `Empate! Ambos eligieron ${choices[userChoice-1].toUpperCase()}. Puntuaciones: ${userName} - ${userScore}, ${randomName}(Computadora) - ${computerScore}`;
+        } else {
+            computerScore++;
+            return `Perdiste la ronda! Elegiste ${choices[userChoice-1].toUpperCase()} y ${randomName}(computadora) eligió ${choices[computerChoice-1].toUpperCase()}. Puntuaciones: ${userName} - ${userScore}, ${randomName}(Computadora) - ${computerScore}`;
         }
-    ]
+    }
+
+    while (userScore < 5 && computerScore < 5) {
+        let userChoice = prompt(` ¡Hola! ${userName} Elige: 1 para 🧱, 2 para 📄, 3 para ✂️`);
+        
+        // Validación de la elección del usuario
+        while(userChoice < 1 || userChoice > 3 || isNaN(userChoice)) {
+            alert("Por favor, ingresa un número válido (1, 2 o 3).");
+            userChoice = prompt(` ¡Hola! ${userName} Elige: 1 para 🧱, 2 para 📄, 3 para ✂️`);
+        }
+
+        alert(playRound(userChoice));
+    }
+}else{
+    alert(`${userName} Nos vemos en la proxima!`);
 }
-
-
+}, 1000);
